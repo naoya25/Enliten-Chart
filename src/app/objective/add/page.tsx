@@ -1,5 +1,7 @@
 "use client";
-import React, { useState } from "react";
+import { UserType } from "@/type/supabaseUser";
+import { supabase } from "@/utils/supabase";
+import React, { useEffect, useState } from "react";
 
 const postObjective = async ({
   title,
@@ -10,7 +12,7 @@ const postObjective = async ({
   title: string;
   description: string;
   deadline: Date;
-  userId: number;
+  userId: string;
 }) => {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}api/objectives/`,
@@ -25,6 +27,7 @@ const postObjective = async ({
   return (await res).json();
 };
 
+// 目標投稿ページ
 const AddObjective = () => {
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
@@ -36,6 +39,33 @@ const AddObjective = () => {
       .toTimeString()
       .slice(0, 5)}`;
   });
+  const [currentUser, setCurrentUser] = useState<UserType>({
+    id: "",
+    name: "",
+    email: "",
+    icon: "",
+  });
+
+  useEffect(() => {
+    const getCurrentUser = async () => {
+      const { data } = await supabase.auth.getSession();
+      console.log(data);
+
+      if (data.session !== null) {
+        const {
+          data: { user },
+        } = await supabase.auth.getUser();
+        console.log(user);
+        setCurrentUser({
+          id: user?.id || "",
+          name: user?.user_metadata.name || "",
+          email: user?.email || "",
+          icon: user?.user_metadata.icon || "",
+        });
+      }
+    };
+    getCurrentUser();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -43,7 +73,7 @@ const AddObjective = () => {
       title,
       description,
       deadline: new Date(deadline),
-      userId: 1,
+      userId: currentUser.id,
     });
   };
 

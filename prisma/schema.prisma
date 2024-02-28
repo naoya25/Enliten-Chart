@@ -20,7 +20,7 @@ model Objective {
   deadline DateTime
   isAchievement Boolean @default(false)
   achievementDay DateTime?
-  userId Int
+  userId String
   createdAt DateTime @default(now())
 }
 

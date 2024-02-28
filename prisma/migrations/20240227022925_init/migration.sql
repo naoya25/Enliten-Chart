@@ -6,7 +6,7 @@ CREATE TABLE "Objective" (
     "deadline" TIMESTAMP(3) NOT NULL,
     "isAchievement" BOOLEAN NOT NULL DEFAULT false,
     "achievementDay" TIMESTAMP(3),
-    "userId" INTEGER NOT NULL,
+    "userId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "Objective_pkey" PRIMARY KEY ("id")

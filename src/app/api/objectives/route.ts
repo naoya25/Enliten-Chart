@@ -30,6 +30,7 @@ export const GET = async (req: Request, res: NextResponse) => {
 export const POST = async (req: Request, res: NextResponse) => {
   try {
     const { title, description, deadline, userId } = await req.json();
+    console.log(title, description, deadline, userId)
 
     await main();
     const objective = await prisma.objective.create({
