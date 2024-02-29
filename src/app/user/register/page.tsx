@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import React, { useState } from "react";
 import { supabase } from "@/utils/supabase";
 import { useRouter } from "next/navigation";
 
@@ -8,16 +8,11 @@ export default function Register() {
   const [password, setPassword] = useState<string>("");
   const router = useRouter();
 
-  const doRegister = async () => {
+  const doRegister = async (e: React.FormEvent) => {
+    e.preventDefault();
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
-      options: {
-        data: {
-          name: "John",
-          icon: "https://hips.hearstapps.com/hmg-prod/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=0.752xw:1.00xh;0.175xw,0&resize=1200:*",
-        },
-      },
     });
     if (error) throw new Error(error.message);
     console.log(data);
@@ -28,12 +23,7 @@ export default function Register() {
     <div>
       <h1>新規登録</h1>
       <div>
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            doRegister();
-          }}
-        >
+        <form onSubmit={doRegister}>
           <div>
             <label>メールアドレス：</label>
             <input

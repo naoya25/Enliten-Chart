@@ -1,12 +1,9 @@
-export type ObjectiveType = {
+export type TodoType = {
   id: number;
-  title: string;
   description: string;
   deadline: Date;
   isAchievement: boolean;
   achievementDay: Date;
-  userId: string;
+  objectiveId: number;
   createdAt: Date;
-  todos: [];
-  reviews: [];
 };

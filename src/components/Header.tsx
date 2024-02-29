@@ -2,67 +2,80 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/utils/supabase";
 import { useRouter } from "next/navigation";
+import { UserType } from "@/type/supabaseUser";
 
 const Header = () => {
-  const [currentUser, setcurrentUser] = useState<string | null>("");
   const router = useRouter();
+
+  const [currentUser, setCurrentUser] = useState<UserType>({
+    id: "",
+    email: "",
+  });
 
   useEffect(() => {
     const getCurrentUser = async () => {
       const { data } = await supabase.auth.getSession();
+      console.log(data);
 
       if (data.session !== null) {
         const {
           data: { user },
         } = await supabase.auth.getUser();
-
-        setcurrentUser(user && user.email ? user.email : null);
+        console.log(user);
+        setCurrentUser({
+          id: user?.id || "",
+          email: user?.email || "",
+        });
       }
     };
+    getCurrentUser();
   }, []);
 
   const doLogout = async () => {
-    // supabaseに用意されているログアウトの関数
     const { error } = await supabase.auth.signOut();
     if (error) throw new Error(error.message);
-    // ログアウトを反映させるためにリロードさせる
-    router.push("/login");
+    router.push("/user/login");
   };
 
   return (
-    <div className="border-b-2 border-gray-300 flex justify-between items-center">
-      {currentUser ? (
-        <div suppressHydrationWarning={true}>
-          <div style={{ paddingBottom: "1rem" }}>
-            {currentUser} でログインしています。
-          </div>
+    <div className="h-[50px] border-b-2 border-gray-300 flex justify-between items-center">
+      {currentUser.id != "" ? (
+        <div
+          suppressHydrationWarning={true}
+          className="flex items-center justify-between min-w-[100vw]"
+        >
+          <div className="m-3">You are logged in with : {currentUser.email}</div>
           <div>
+            <a href="/" className="m-3">
+              Top
+            </a>
+            <a href="/objective/add" className="m-3">
+              目標を設定する
+            </a>
+            <a href="/objective" className="m-3">
+              目標一覧ページ
+            </a>
             <button
               onClick={() => {
                 doLogout();
               }}
+              className="m-3"
             >
               ログアウト
             </button>
           </div>
         </div>
       ) : (
-        <div suppressHydrationWarning={true}>ログインしていません。</div>
+        <div suppressHydrationWarning={true}>
+          ログインしていません。
+          <a href="/user/register" className="m-3">
+            Sign Up
+          </a>
+          <a href="/user/login" className="m-3">
+            Login
+          </a>
+        </div>
       )}
-      <div className="flex">
-        <a href="/" className="m-3">
-          Top
-        </a>
-        <a href="/objective/add" className="m-3">
-          Post
-        </a>
-        <a href="/user/register" className="m-3">
-          Sign Up
-        </a>
-        <a href="/user/login" className="m-3">
-          Login
-        </a>
-      </div>
     </div>
   );
 };

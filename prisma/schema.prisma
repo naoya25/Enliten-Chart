@@ -14,13 +14,59 @@ datasource db {
 }
 
 model Objective {
-  id          Int      @id @default(autoincrement())
+  id Int @id @default(autoincrement())
   title String
   description String
   deadline DateTime
   isAchievement Boolean @default(false)
   achievementDay DateTime?
-  userId Int
+  userId String
   createdAt DateTime @default(now())
+  reviews Review[]
+  todos Todo[]
 }
 
+model Review {
+  id Int @id @default(autoincrement())
+  good String
+  more String
+  challenge String
+  day DateTime @default(now())
+  createdAt DateTime @default(now())
+  objective Objective @relation(fields: [objectiveId], references: [id])
+  objectiveId Int
+}
+
+model Todo {
+  id Int @id @default(autoincrement())
+  description String
+  deadline DateTime @default(now())
+  isAchievement Boolean @default(false)
+  achievementDay DateTime?
+  createdAt DateTime @default(now())
+  objective Objective @relation(fields: [objectiveId], references: [id])
+  objectiveId Int
+}
+
+model DailyQuest {
+  id Int @id @default(autoincrement())
+  title String
+  description String
+  day DateTime
+  isAchievement Boolean @default(false)
+  achievementDay DateTime?
+  userId String
+  createdAt DateTime @default(now())
+  dailyreviews DailyReview[]
+}
+
+model DailyReview {
+  id Int @id @default(autoincrement())
+  good String
+  more String
+  try String
+  day DateTime @default(now())
+  createdAt DateTime @default(now())
+  dailyQuest DailyQuest @relation(fields: [dailyQuestId], references: [id])
+  dailyQuestId Int
+}

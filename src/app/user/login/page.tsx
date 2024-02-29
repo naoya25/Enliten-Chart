@@ -8,7 +8,8 @@ export default function Register() {
   const [password, setPassword] = useState<string>("");
   const router = useRouter();
 
-  const doLogin = async () => {
+  const doLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
     console.log("do login ...");
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
@@ -17,7 +18,7 @@ export default function Register() {
 
     if (error) throw new Error(error.message);
     console.log(data);
-    console.log("Success Login");
+    console.log(error);
     router.push("/");
   };
 
@@ -25,7 +26,7 @@ export default function Register() {
     <div>
       <h1>ログイン</h1>
       <div>
-        <form>
+        <form onSubmit={doLogin}>
           <div>
             <label htmlFor="email">メールアドレス：</label>
             <input
@@ -44,13 +45,7 @@ export default function Register() {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          <button
-            onClick={() => {
-              doLogin();
-            }}
-          >
-            ログイン
-          </button>
+          <button>ログイン</button>
         </form>
       </div>
     </div>

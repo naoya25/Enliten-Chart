@@ -6,9 +6,15 @@ export const GET = async (req: Request, res: NextResponse) => {
   try {
     const id: number = parseInt(req.url.split("/objectives/")[1]);
     await main();
-    const objectives = await prisma.objective.findFirst({ where: { id } });
+    const objective = await prisma.objective.findUnique({
+      where: { id },
+      include: {
+        todos: true,
+        reviews: true,
+      },
+    });
     return NextResponse.json(
-      { message: "Success", objectives },
+      { message: "Success", objective },
       { status: 200 }
     );
   } catch (error) {
@@ -46,11 +52,11 @@ export const DELETE = async (req: Request, res: NextResponse) => {
     const id: number = parseInt(req.url.split("/objectives/")[1]);
 
     await main();
-    const objectives = await prisma.objective.delete({
+    const objective = await prisma.objective.delete({
       where: { id },
     });
     return NextResponse.json(
-      { message: "Success", objectives },
+      { message: "Success", objective },
       { status: 200 }
     );
   } catch (error) {
