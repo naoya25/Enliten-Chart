@@ -14,6 +14,7 @@ async function fetchAllObjective() {
 }
 
 // 目標一覧ページ
+// ログインしているユーザーの目標のみ取得したい（まだやってない、APIで取得する）
 const ObjectivesIndex = async () => {
   const objectives = await fetchAllObjective();
   return (
@@ -25,7 +26,8 @@ const ObjectivesIndex = async () => {
             <p>description: {objective.description}</p>
             <p>deadline: {new Date(objective.deadline).toDateString()}</p>
             <p>userId: {objective.userId}</p>
-            <a href={`/edit/${objective.id}`}>編集する</a>
+            <a href={`/objective/edit/${objective.id}`}>編集する</a>
+            <a href={`/objective/show/${objective.id}`}>詳細</a>
           </div>
         ))}
     </div>

@@ -9,9 +9,7 @@ const Header = () => {
 
   const [currentUser, setCurrentUser] = useState<UserType>({
     id: "",
-    name: "",
     email: "",
-    icon: "",
   });
 
   useEffect(() => {
@@ -26,9 +24,7 @@ const Header = () => {
         console.log(user);
         setCurrentUser({
           id: user?.id || "",
-          name: user?.user_metadata.name || "",
           email: user?.email || "",
-          icon: user?.user_metadata.icon || "",
         });
       }
     };
@@ -48,7 +44,7 @@ const Header = () => {
           suppressHydrationWarning={true}
           className="flex items-center justify-between min-w-[100vw]"
         >
-          <div className="m-3">You are logged in with : {currentUser.name}</div>
+          <div className="m-3">You are logged in with : {currentUser.email}</div>
           <div>
             <a href="/" className="m-3">
               Top

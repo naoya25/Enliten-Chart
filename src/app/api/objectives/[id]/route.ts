@@ -6,7 +6,13 @@ export const GET = async (req: Request, res: NextResponse) => {
   try {
     const id: number = parseInt(req.url.split("/objectives/")[1]);
     await main();
-    const objective = await prisma.objective.findFirst({ where: { id } });
+    const objective = await prisma.objective.findUnique({
+      where: { id },
+      include: {
+        todos: true,
+        reviews: true,
+      },
+    });
     return NextResponse.json(
       { message: "Success", objective },
       { status: 200 }

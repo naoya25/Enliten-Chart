@@ -2,6 +2,7 @@
 import { UserType } from "@/type/supabaseUser";
 import { supabase } from "@/utils/supabase";
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 const postObjective = async ({
   title,
@@ -41,10 +42,9 @@ const AddObjective = () => {
   });
   const [currentUser, setCurrentUser] = useState<UserType>({
     id: "",
-    name: "",
     email: "",
-    icon: "",
   });
+  const router = useRouter()
 
   useEffect(() => {
     const getCurrentUser = async () => {
@@ -58,9 +58,7 @@ const AddObjective = () => {
         console.log(user);
         setCurrentUser({
           id: user?.id || "",
-          name: user?.user_metadata.name || "",
           email: user?.email || "",
-          icon: user?.user_metadata.icon || "",
         });
       }
     };
@@ -75,6 +73,7 @@ const AddObjective = () => {
       deadline: new Date(deadline),
       userId: currentUser.id,
     });
+    router.push('/objective')
   };
 
   return (
