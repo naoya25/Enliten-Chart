@@ -18,7 +18,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
-      <body className={inter.className + ' min-h-[100vh] relative pb-10'}>
+      <body
+        className={
+          inter.className + " min-h-[100vh] relative pb-10 antialiased"
+        }
+      >
         <Header />
         {children}
         <Footer />
