@@ -79,7 +79,7 @@ const MonthlyCalendar = ({
   return (
     <div>
       {/* ナビゲーション部分 */}
-      <div className="flex items-center justify-around text-gray-500 w-[80%] mx-auto">
+      <div className="flex items-center justify-around text-gray-500 w-[80%] mx-auto bg-gray-200">
         <p className="m-3 text-[1.5em]">{format(currentMonth, "yyyy年 M月")}</p>
         <div className="flex">
           <p className="border w-[64px] h-[48px] rounded-[4px] flex items-center justify-center m-3">
