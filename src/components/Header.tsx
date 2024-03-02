@@ -44,16 +44,18 @@ const Header = () => {
           suppressHydrationWarning={true}
           className="flex items-center justify-between min-w-[100vw]"
         >
-          <div className="m-3">You are logged in with : {currentUser.email}</div>
+          <div className="m-3">
+            You are logged in with : {currentUser.email}
+          </div>
           <div>
             <a href="/" className="m-3">
               Top
             </a>
-            <a href="/objective/add" className="m-3">
-              目標を設定する
-            </a>
             <a href="/objective" className="m-3">
-              目標一覧ページ
+              目標
+            </a>
+            <a href="/user/dailyQuest" className="m-3">
+              日課
             </a>
             <button
               onClick={() => {

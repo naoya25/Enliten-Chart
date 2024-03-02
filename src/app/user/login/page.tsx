@@ -20,6 +20,7 @@ export default function Register() {
     console.log(data);
     console.log(error);
     router.push("/");
+    router.refresh()
   };
 
   return (
