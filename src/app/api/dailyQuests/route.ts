@@ -1,19 +1,17 @@
-import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
 import { main, prisma } from "../route";
 
-// 全目標取得用API
+// 全dailyquest取得用API
 export const GET = async (req: Request, res: NextResponse) => {
   try {
     await main();
-    const objectives = await prisma.objective.findMany({
+    const dailyQuests = await prisma.dailyQuest.findMany({
       include: {
-        todos: true,
-        reviews: true,
+        dailyreviews: true,
       },
     });
     return NextResponse.json(
-      { message: "Success", objectives },
+      { message: "Success", dailyQuests },
       { status: 200 }
     );
   } catch (error) {
@@ -23,23 +21,22 @@ export const GET = async (req: Request, res: NextResponse) => {
   }
 };
 
-// 目標投稿用API
+// daily quest投稿用API
 export const POST = async (req: Request, res: NextResponse) => {
   try {
-    const { title, description, deadline, userId } = await req.json();
-    console.log(title, description, deadline, userId);
+    const { title, description, day, userId } = await req.json();
 
     await main();
-    const objective = await prisma.objective.create({
+    const dailyQuest = await prisma.dailyQuest.create({
       data: {
         title,
         description,
-        deadline,
+        day,
         userId,
       },
     });
     return NextResponse.json(
-      { message: "Success", objective },
+      { message: "Success", dailyQuest },
       { status: 201 }
     );
   } catch (error) {

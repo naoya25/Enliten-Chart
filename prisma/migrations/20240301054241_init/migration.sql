@@ -1,4 +1,15 @@
 -- CreateTable
+CREATE TABLE "Profiles" (
+    "id" SERIAL NOT NULL,
+    "email" TEXT NOT NULL,
+    "name" TEXT,
+    "introduce" TEXT,
+    "avatar_url" TEXT,
+
+    CONSTRAINT "Profiles_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "Objective" (
     "id" SERIAL NOT NULL,
     "title" TEXT NOT NULL,
@@ -17,7 +28,7 @@ CREATE TABLE "Review" (
     "id" SERIAL NOT NULL,
     "good" TEXT NOT NULL,
     "more" TEXT NOT NULL,
-    "try" TEXT NOT NULL,
+    "challenge" TEXT NOT NULL,
     "day" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "objectiveId" INTEGER NOT NULL,

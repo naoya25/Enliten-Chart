@@ -18,7 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
-      <body className={inter.className + ' min-h-[100vh] relative'}>
+      <body className={inter.className + ' min-h-[100vh] relative pb-10'}>
         <Header />
         {children}
         <Footer />
